@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect,  useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid'
 
 import {Section} from './Section/Section'
@@ -9,9 +10,14 @@ import {FilterByName} from './FilterByName/FilterByName'
 
 
   export const App =() => {
-    const [filter, setFilter] = useState('')
-    const [contacts, setContacts] = useState(()=> {
-     return JSON.parse(localStorage.getItem('contacts')) || []})
+
+    const dispatch = useDispatch();
+    const filter = useSelector(state => state.filter);
+    const contacts = useSelector(state => state.contacts);
+
+    // const [filter, setFilter] = useState('')
+    // const [contacts, setContacts] = useState(()=> {
+    //  return JSON.parse(localStorage.getItem('contacts')) || []})
   
      const firstRender = useRef(true);
 
@@ -31,7 +37,7 @@ import {FilterByName} from './FilterByName/FilterByName'
         name,
         number,
       };
-      setContacts(contacts => {
+      dispatch(contacts => {
         const includeName = contacts.find(user => user.name === contact.name);
         if (includeName) {
           alert(`${contact.name} is already in contacs`);
@@ -44,12 +50,12 @@ import {FilterByName} from './FilterByName/FilterByName'
   
     const handelChange = e => {
       const { value } = e.target;
-      setFilter(value);
+      dispatch({type:'SEARCH', payload:value})
     };
   
     const handleDelete = id => {
-      setContacts(prevState => {
-        const newContactList = prevState.filter(contact => contact.id !== id);
+      dispatch(prevState => {
+        const newContactList = contacts.filter(contact => contact.id !== id);
         console.log(newContactList);
   
         return [...newContactList];
@@ -84,6 +90,9 @@ import {FilterByName} from './FilterByName/FilterByName'
    
 
 
+
+
+  
 
 
 

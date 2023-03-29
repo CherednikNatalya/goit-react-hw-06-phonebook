@@ -1,21 +1,16 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid'
 import css from './Form.module.css';
 import { PropTypes } from 'prop-types';
-import {addContact} from '../../redux/action'
-export const Form =({onSubmitForm}) => {
 
+export const Form =({onSubmitForm}) => {
+ const [name, setName] = useState('')
+ const [number, setNumber] = useState('')
 
 const dispatch = useDispatch();
-
-
-const name =useSelector(state=> state.contacts.name)
-const number =useSelector(state=> state.contacts.number)
-
-//  const [name, setName] = useState('')
-//  const [number, setNumber] = useState('')
-
+const contacts = useSelector(getContacts);
+  
   const nameId = nanoid()
   const numberId = nanoid()
 
@@ -23,11 +18,11 @@ const number =useSelector(state=> state.contacts.number)
     const {name, value } = evt.target;
     switch (name) {
       case 'name':
-        dispatch(addContact(value) );
+        setName(value);
         break;
         
         case 'number':
-          dispatch(addContact(value) );
+        setNumber(value);
         break;
    default:
     console.log('//////')
@@ -37,8 +32,8 @@ const number =useSelector(state=> state.contacts.number)
      const handleSubmit = event => {
         event.preventDefault()
         onSubmitForm(name, number);
-        // name('')
-        // number('')
+        setName('')
+        setNumber('')
     }
 
         return(
@@ -90,7 +85,3 @@ const number =useSelector(state=> state.contacts.number)
 Form.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
 }
-
-
-
-

@@ -1,4 +1,5 @@
-import { SEARCH, DELETE_CONTACT, ADD_CONTACT } from './constants';
+import { createAction } from '@reduxjs/toolkit';
+// import { SEARCH, DELETE_CONTACT, ADD_CONTACT } from './constants';
 import { nanoid } from "nanoid";
 
 // export const usersSearchAction = payload => ({ type: SEARCH, payload });
@@ -6,13 +7,17 @@ import { nanoid } from "nanoid";
 
 // ADD_USER 
 
-export const addContact = (name, number) =>{
+export const SEARCH =createAction('SEARCH')
+export const DELETE_CONTACT =createAction('DELETE_CONTACT')
+export const ADD_CONTACT =createAction('ADD_CONTACT')
+
+export const addContact = (state, action) =>{
     return {
         type: ADD_CONTACT,
         payload :{
             id: nanoid(),
-            name,
-            number
+            name: action.payload.name,
+            number: action.payload.number,
         }
     }
 }
